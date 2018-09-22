@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# ddump 0.01
+#
+# Dump the contents of a file to stdout.
+#
+# Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+# TODO: Use string concatenation instead of multiple printf statements.
+
+version(){
+env printf "\n Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com> "
+env printf "\n This program is free software; you can redistribute it and/or modify it under the"
+env printf "\n terms of the GNU General Public License version 3 as published by the Free Software Foundation."
+env printf "\n\n"
+}
+
+usage(){
+env printf "Dump the contents of a file to stdout \n\t usage: ddump [option] FILE \n\n"
+}
+
+while [ "$#" -gt 0 ]
+do
+case "$1" in
+--help)
+usage
+exit 0
+;;
+--version)
+version
+exit 0
+;;
+--)
+shift || { usage; exit 1; }
+if [ -z "$FILE"]
+then
+FILE="$1"
+fi
+shift
+[ "$#" -gt 0 ] && { usage; exit 1; }
+;;
+*)
+if [ -z "$FILE" ]
+then
+FILE="$1"
+fi
+shift
+;;
+esac
+done
+[ "$#" -gt 0 ] && { usage; exit 1; }
+[ -n "$FILE" ] || { usage; exit 1; }
+
+# TODO: Stop using cat; get ddump to read the raw file data instead.
+
+cat "$FILE" || \
+	{ echo >&2 "cat exited with a non-zero exit status"; exit 1; }
+
+#END
