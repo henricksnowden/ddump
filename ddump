@@ -65,8 +65,8 @@ done
 [ "$#" -gt 0 ] && { usage; exit 1; }
 [ -n "$FILE" ] || { usage; exit 1; }
 
-# TODO: Stop using cat; get ddump to read the raw file data instead.
+# TODO: Stop using less; get ddump to read the raw file data instead.
 
-cat "$FILE" || \
+less "$FILE" || \
 	{ echo >&2 "cat exited with a non-zero exit status"; exit 1; }
 
