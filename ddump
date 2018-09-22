@@ -21,14 +21,16 @@
 # TODO: Use string concatenation instead of multiple printf statements.
 
 version(){
-env printf "\n Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com> "
-env printf "\n This program is free software; you can redistribute it and/or modify it under the"
-env printf "\n terms of the GNU General Public License version 3 as published by the Free Software Foundation."
+env printf "\nddump 0.01\n"
+env printf "\nCopyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com> "
+env printf "\nThis program is free software; you can redistribute it and/or modify it under the"
+env printf "\nterms of the GNU General Public License version 3 as published by the Free Software Foundation."
 env printf "\n\n"
 }
 
 usage(){
-env printf "Dump the contents of a file to stdout \n\t usage: ddump [option] FILE \n\n"
+env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout \n\n"
+env printf "\t\tOptions:\n\t\t--help\t\t Print this help message and exit \n\t\t--version\t Print ddump version and exit\n\n"
 }
 
 while [ "$#" -gt 0 ]
@@ -68,4 +70,3 @@ done
 cat "$FILE" || \
 	{ echo >&2 "cat exited with a non-zero exit status"; exit 1; }
 
-#END
