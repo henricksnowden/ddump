@@ -18,19 +18,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# TODO: Use string concatenation instead of multiple printf statements.
-
 version(){
-env printf "\nddump 0.01\n"
-env printf "\nCopyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com> "
-env printf "\nThis program is free software; you can redistribute it and/or modify it under the"
-env printf "\nterms of the GNU General Public License version 3 as published by the Free Software Foundation."
-env printf "\n\n"
+env printf "ddump 0.01
+Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
+This program is free software; you can redistribute it and/or modify it under the terms of the
+GNU General Public License version 3 as published by the Free Software Foundation.
+""\n"
 }
 
 usage(){
-env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout \n\n"
-env printf "\t\tOptions:\n\t\t--help\t\t Print this help message and exit \n\t\t--version\t Print ddump version and exit\n\n"
+env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout \n\n
+\t\tOptions:\n\t\t-h, --help\t\t Print this help message and exit \n\t\t-v, --version\t\t Print ddump version and exit\n\n"
 }
 
 while [ "$#" -gt 0 ]
@@ -38,6 +36,14 @@ do
 case "$1" in
 --help)
 usage
+exit 0
+;;
+-h)
+usage
+exit 0
+;;
+-v)
+version
 exit 0
 ;;
 --version)
