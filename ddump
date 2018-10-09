@@ -2,7 +2,7 @@
 #
 # ddump 0.01
 #
-# Dump the contents of a file to stdout.
+# Dumps the contents of a file to stdout which is then piped to less.
 #
 # Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
 # This program is free software; you can redistribute it and/or modify
@@ -18,61 +18,63 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-version(){
-env printf "ddump 0.01
-Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
-This program is free software; you can redistribute it and/or modify it under the terms of the
-GNU General Public License version 3 as published by the Free Software Foundation.
-""\n"
+version()
+{
+    env printf "ddump 0.01
+    Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License version 3 as published by the Free Software Foundation.
+    ""\n"
 }
 
-usage(){
-env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout \n\n
-\t\tOptions:\n\t\t-h, --help\t\t Print this help message and exit \n\t\t-v, --version\t\t Print ddump version and exit\n\n"
+usage()
+{
+    env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout \n\n
+    \t\tOptions:\n\t\t-h, --help\t\t Print this help message and exit \n\t\t-v, --version\t\t Print ddump version and exit\n\n\t\tYou may exit ddump by pressing \"q\" (Most commands that apply to LESS(1) may be used with ddump)\n\n"
 }
 
 while [ "$#" -gt 0 ]
-do
-case "$1" in
---help)
-usage
-exit 0
-;;
--h)
-usage
-exit 0
-;;
--v)
-version
-exit 0
-;;
---version)
-version
-exit 0
-;;
---)
-shift || { usage; exit 1; }
-if [ -z "$FILE"]
-then
-FILE="$1"
-fi
-shift
-[ "$#" -gt 0 ] && { usage; exit 1; }
-;;
-*)
-if [ -z "$FILE" ]
-then
-FILE="$1"
-fi
-shift
-;;
-esac
-done
-[ "$#" -gt 0 ] && { usage; exit 1; }
-[ -n "$FILE" ] || { usage; exit 1; }
+    do
+    case "$1" in
+            --help)
+            usage
+            exit 0
+            ;;
+            -h)
+            usage
+            exit 0
+            ;;
+            -v)
+            version
+            exit 0
+            ;;
+            --version)
+            version
+            exit 0
+            ;;
+            --)
+            shift || { usage; exit 1; }
+            if [ -z "$FILE"]
+            then
+            FILE="$1"
+                 fi
+                 shift
+                 [ "$#" -gt 0 ] && { usage; exit 1; }
+                 ;;
+            *)
+            if [ -z "$FILE" ]
+                then
+                FILE="$1"
+                     fi
+                     shift
+                     ;;
+                esac
+                done
+                [ "$#" -gt 0 ] && { usage; exit 1; }
+                [ -n "$FILE" ] || { usage; exit 1; }
 
-# TODO: Stop using less; get ddump to read the raw file data instead.
+# TODO (<cisiomaina@gmail.com>#1#10/09/18): Stop using less; get ddump to read the raw file data instead.
 
-less "$FILE" || \
-	{ echo >&2 "cat exited with a non-zero exit status"; exit 1; }
+                cat "$FILE" | less || \
+            { echo >&2 "Exited with a non-zero exit status"; exit 1; }
 
