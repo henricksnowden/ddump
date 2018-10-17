@@ -1,3 +1,4 @@
-ddump is a shell script that reads the input of a file and dumps it to stdout. Of course, you can
-redirect output elsewhere just as much as you can pipe it. Beware that in the current form, piping
-should be done at one's discretion as output format is sketchy.
+ddump reads the input of a file and dumps it to stdout.
+Of course, you can redirect output elsewhere just as much as you can pipe it.
+Beware that in the current form, piping should be done at one's discretion as
+output isn't well thought of.
