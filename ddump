@@ -2,7 +2,6 @@
 #
 # ddump 0.01
 #
-# Dumps the contents of a file to stdout which is then piped to less.
 #
 # Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
 # This program is free software; you can redistribute it and/or modify
@@ -20,17 +19,18 @@
 
 version()
 {
-    env printf "ddump 0.01
-    Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
-    This program is free software; you can redistribute it and/or modify it under the terms of the
-    GNU General Public License version 3 as published by the Free Software Foundation.
-    ""\n"
+    env printf "\tddump 0.01
+    \tCopyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
+    \tThis program is free software; you can redistribute it and/or modify it under the terms of the
+    \tGNU General Public License version 3 as published by the Free Software Foundation.\n\n"
 }
 
 usage()
 {
-    env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout \n\n
-    \t\tOptions:\n\t\t-h, --help\t\t Print this help message and exit \n\t\t-v, --version\t\t Print ddump version and exit\n\n\t\tYou may exit ddump by pressing \"q\" (Most commands that apply to LESS(1) may be used with ddump)\n\n"
+    env printf "\t ddump:\tddump [option] FILE \n\t Dump the contents of a file to stdout
+    \n\t(Most commands that apply to LESS(1) may be used with ddump)
+    \t\tOptions:\n\t\t-h, --help\t\t Print this help message and exit \n\t\t-v, --version\t\t Print ddump version and exit
+ 	\n"
 }
 
 while [ "$#" -gt 0 ]
