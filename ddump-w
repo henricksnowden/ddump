@@ -1,0 +1,100 @@
+#!/bin/bash
+#
+# ddump 0.02
+
+# Copyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+
+version() {
+    env printf "\tddump 0.02\n"
+    env printf "\tCopyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>\n"
+    env printf "\tThis program is free software; you can redistribute it and/or modify it under the terms of the\n"
+    env printf "\tGNU General Public License version 3 as published by the Free Software Foundation.\n\n"
+}
+
+usage() {
+    env printf "\t ddump:\tddump [option] FILE \n"
+    env printf "\t Dump the contents of a file to stdout with paging\n"
+    env printf "\tThis version is an attempt to get paging working on WSL\n"
+    env printf "\t\tOptions:\n"
+    env printf "\t\t-h, --help\t\t Print this help message and exit\n"
+    env printf "\t\t-v, --version\t\t Print ddump version and exit\n"
+}
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --help)
+            usage
+            exit 0
+            ;;
+        -h)
+            usage
+            exit 0
+            ;;
+        -v)
+            version
+            exit 0
+            ;;
+        --version)
+            version
+            exit 0
+            ;;
+        --)
+            shift || { usage; exit 1; }
+            if [ -z "$FILE" ]; then
+                FILE="$1"
+            fi
+            shift
+            [ "$#" -gt 0 ] && { usage; exit 1; }
+            ;;
+        *)
+            if [ -z "$FILE" ]; then
+                FILE="$1"
+            fi
+            shift
+            ;;
+    esac
+done
+
+[ "$#" -gt 0 ] && { usage; exit 1; }
+[ -n "$FILE" ] || { usage; exit 1; }
+
+# Function to read and display file contents with paging
+display_with_paging() {
+    local file="$1"
+    local page_size=10  # Number of lines per page
+    local line_count=0
+
+    while IFS= read -r line; do
+        echo "$line"
+        line_count=$((line_count + 1))
+        if [ "$line_count" -eq "$page_size" ]; then
+            line_count=0
+            printf "\n--- Press Enter to continue or 'q' to quit ---\n"
+            read -r -p "" input
+            if [[ "$input" == "q" ]]; then
+                break
+            fi
+            clear  # Clear the screen after each page
+        fi
+    done < "$file"
+}
+
+# Read the raw file data and display with paging
+if [ -f "$FILE" ]; then
+    display_with_paging "$FILE" || { echo >&2 "Exited with a non-zero exit status"; exit 1; }
+else
+    echo >&2 "File not found: $FILE"
+    exit 1
+fi
