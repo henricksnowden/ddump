@@ -1,4 +1,3 @@
-ddump reads the input of a file and dumps it to stdout.
+ddump reads the input of a file and dumps it to stdout. This is my attempt to create a terminal editor that reads without relying on cat or less. You would ordinarily never need this, this is a just a for fun project that predicates my journey to writing a full fledged text editor in C.
 Of course, you can redirect output elsewhere just as much as you can pipe it.
-Beware that in the current form, piping should be done at one's discretion as
-output isn't well thought of.
+Some systems still fail to page such as WSL terminal (Ubuntu).
