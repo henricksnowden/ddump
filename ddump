@@ -17,7 +17,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
 
 version() {
-    env printf "\tddump 1.0\n"
+    env printf "\tddump 0.02\n"
     env printf "\tCopyright (C) 2018 Trasicio Maina <cisiomaina@gmail.com>\n"
     env printf "\tThis program is free software; you can redistribute it and/or modify it under the terms of the\n"
     env printf "\tGNU General Public License version 3 as published by the Free Software Foundation.\n\n"
@@ -26,7 +26,7 @@ version() {
 usage() {
     env printf "\t ddump:\tddump [option] FILE \n"
     env printf "\t Dump the contents of a file to stdout with paging\n"
-    env printf "\tYou can modify paging by editing page_size=n function \n"
+    env printf "\t(Most commands that apply to LESS(1) may be used with ddump)\n"
     env printf "\t\tOptions:\n"
     env printf "\t\t-h, --help\t\t Print this help message and exit\n"
     env printf "\t\t-v, --version\t\t Print ddump version and exit\n"
@@ -73,7 +73,7 @@ done
 # Function to read and display file contents with paging
 display_with_paging() {
     local file="$1"
-    local page_size=20  # Number of lines per page
+    local page_size=10  # Number of lines per page
     local line_count=0
 
     while IFS= read -r line; do
@@ -81,7 +81,8 @@ display_with_paging() {
         line_count=$((line_count + 1))
         if [ "$line_count" -eq "$page_size" ]; then
             line_count=0
-            read -p "Press Enter to continue..."  # Wait for user input to continue
+            printf "\n--- Press Enter to continue ---\n"
+            read -r -p ""  # Wait for user input to continue
         fi
     done < "$file"
 }
